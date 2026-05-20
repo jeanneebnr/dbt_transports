@@ -13,7 +13,16 @@ sources:
       - name: indicateurs_de_perception_qs
       - name: liste_transporteurs
       - name: meteo_paris_2023_2024
+      - name: sdap_lignes_bus_inscrites
       - name: nb_fer_2024
       - name: nb_fer_s1_2023
       - name: nb_fer_s2_2023
-      - name: sdap_lignes_bus_inscrites
+      - name: profil_fer_T3_2024
+      - name: profil_fer_s1_2023
+      - name: profil_fer_s1_2024
+      - name: profil_fer_s2_2023
+      - name: profil_surface_T3_2024
+      - name: profil_surface_s1_2023
+      - name: profil_surface_s1_2024
+      - name: profil_surface_s2_2023
+      
