@@ -19,7 +19,7 @@ deduplicated AS (
 
 clean_data AS (
     SELECT
-        cast(id_stop_point AS string) AS id_arret_idfm,
+        cast(id_stop_point AS string) AS id_stop_IDFM,
         nullif(trim(cast(stop_name AS string)), '') AS nom_arret,
         coalesce(cast(accessibility_level_name as string), 'non renseigné') as niveau_accessibilite,
         cast(lat AS float64) AS latitude,
