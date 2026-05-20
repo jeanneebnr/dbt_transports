@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: raw_pre_traitees
+  - name: idfm
     database: projet-final-496714
     schema: raw_pre_traitees
 
@@ -17,4 +17,3 @@ sources:
       - name: nb_fer_s1_2023
       - name: nb_fer_s2_2023
       - name: sdap_lignes_bus_inscrites
-      - name: 
