@@ -32,16 +32,4 @@ clean_data AS (
         nom_commune,
         code_insee
     FROM deduplicated
-),
-
-
-
-
-
-
-
-
-
-
-
 )
