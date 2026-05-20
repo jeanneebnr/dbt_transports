@@ -10,7 +10,6 @@ deduplicated AS (
             *,
             row_number() OVER (
                 PARTITION BY id_stop_point
-                ORDER BY id_stop_point ASC
             ) AS row_num
         FROM source_data
     )
