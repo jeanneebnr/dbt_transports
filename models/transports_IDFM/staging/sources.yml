@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: raw_pre_traitees
+    database: projet-final-496714
+    schema: raw_pre_traitees
+
+    tables:
+      - name: accessibilite_en_gare
+      - name: arrets_lignes
+      - name: horaires_2023
+      - name: horaires_2024
+      - name: indicateurs_de_perception_qs
+      - name: liste_transporteurs
+      - name: meteo_paris_2023_2024
+      - name: nb_fer_2024
+      - name: nb_fer_s1_2023
+      - name: nb_fer_s2_2023
+      - name: sdap_lignes_bus_inscrites
