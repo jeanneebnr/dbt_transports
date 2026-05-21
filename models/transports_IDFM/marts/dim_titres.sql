@@ -2,7 +2,7 @@
 
 WITH clean AS (
     SELECT DISTINCT
-        REPLACE(REPLACE(categorie_titre, 'Ã©', 'é'), 'ï¿½', 'é') AS titre
+        REPLACE(REPLACE(categorie_titre, 'Ã©', 'e'), 'ï¿½', 'e') AS titre
     FROM {{ ref('stg_nb_fer_2024_s1') }}
 )
 
