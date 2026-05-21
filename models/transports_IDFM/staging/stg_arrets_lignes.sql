@@ -18,23 +18,23 @@ deduplicated AS (
 
 clean_data AS (
     SELECT 
-        cast(id_ligne_IDFM as string),
-        cast(route_long_name as string) as ligne_name_long,
-        cast(id_stop_IDFM as string),
-        cast(stop_name as string) as nom_arret,
-        cast(stop_lon as float64) as longitude,
-        cast(stop_lat as float64) as latitude,
-        cast(operatorname as string) as transporteur,
-        cast(shortname as string) as ,
-        bookingrules,
-        mode,
-        pointgeo,
-        nom_commune,
-        code_insee
+        cast(id_ligne_IDFM AS string),
+        cast(route_long_name AS string) AS libelle_ligne_long,
+        cast(id_stop_IDFM AS string),
+        cast(stop_name AS string) AS libelle_arret,
+        cast(stop_lon AS float64) AS longitude,
+        cast(stop_lat AS float64) AS latitude,
+        cast(operatorname AS string) AS transporteur,
+        cast(shortname AS string) AS libelle_ligne_court,
+        COALESCE(cast(bookingrules AS string), 'pas de réservation') AS reservation,
+        cast(mode AS string) AS type_transport,
+        cast(nom_commune AS string),
+        cast(code_insee AS string) as code_postal
     FROM deduplicated
 ),
 
-
+SELECT *
+FROM clean_data
 
 
 
