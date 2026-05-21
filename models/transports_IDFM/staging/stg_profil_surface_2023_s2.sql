@@ -1,0 +1,11 @@
+SELECT
+    * EXCEPT(code_stif_trns, code_stif_res, code_stif_ligne, cat_jour, trnc_horr_60, pourc_validations),
+
+    code_stif_res                                                           AS id_reseau_stif,
+    code_stif_ligne                                                         AS id_ligne_stif,
+    cat_jour                                                                AS categorie_jour,
+    CAST(SPLIT(trnc_horr_60, 'H')[OFFSET(0)] AS STRING)                     AS heure,
+    CAST(code_stif_trns AS STRING)                                          AS id_transporteur_stif,
+    CAST(REPLACE(CAST(pourc_validations AS STRING), ',', '.') AS FLOAT64)  AS validations_pct
+
+FROM {{ source('idfm', 'profil_surface_2023_s2') }}
