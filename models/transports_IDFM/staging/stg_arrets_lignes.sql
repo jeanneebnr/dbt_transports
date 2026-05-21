@@ -27,7 +27,7 @@ clean_data AS (
         cast(stop_lat AS float64) AS latitude,
         cast(operatorname AS string) AS transporteur,
         cast(shortname AS string) AS libelle_ligne_court,
-        COALESCE(cast(bookingrules AS string), 'pas de réservation') AS reservation,
+        coalesce(cast(bookingrules AS string), 'pas de réservation') AS reservation,
         cast(mode AS string) AS type_transport,
         cast(nom_commune AS string) AS nom_commune,
         cast(code_insee AS string) AS code_postal
