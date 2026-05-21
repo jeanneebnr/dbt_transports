@@ -1,5 +1,5 @@
 SELECT
-    operatorname       AS transporteur_name,
+    operatorname       AS libelle_transporteur,
     operatorref        AS transporteur_ref,
     housenumber,
     street,

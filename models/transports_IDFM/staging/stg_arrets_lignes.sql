@@ -10,7 +10,7 @@ deduplicated AS (
             *,
             row_number() OVER (
                 PARTITION BY id_ligne_IDFM, id_stop_IDFM
-                ORDER BY id_ligne_IDFM  -- ← ORDER BY requis dans BigQuery
+                ORDER BY id_ligne_IDFM
             ) AS row_num
         FROM source_data
     )
@@ -25,11 +25,11 @@ clean_data AS (
         cast(stop_name AS string) AS libelle_arret,
         cast(stop_lon AS float64) AS longitude,
         cast(stop_lat AS float64) AS latitude,
-        cast(operatorname AS string) AS transporteur,
+        cast(operatorname AS string) AS libelle_transporteur,
         cast(shortname AS string) AS libelle_ligne_court,
-        coalesce(cast(bookingrules AS string), 'pas de réservation') AS reservation,
+        coalesce(cast(bookingrules AS string), 'pas de reservation') AS reservation,
         cast(mode AS string) AS type_transport,
-        cast(nom_commune AS string) AS nom_commune,
+        cast(nom_commune AS string) AS ville,
         cast(code_insee AS string) AS code_postal
     FROM deduplicated
 )
