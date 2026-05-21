@@ -5,7 +5,7 @@
     cast(libelle_arret as string) as libelle_arret,
     cast(lda as string) as id_stop_idfm,
     cast(categorie_titre as string) as categorie_titre,
-    cast(nb_vald as int64) as nb_vald
+    cast(nb_vald as int64) as nb_valid
 
 from {{ source('idfm', 'nb_fer_2023_s1') }}
 
