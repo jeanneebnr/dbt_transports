@@ -1,2 +1,4 @@
-select *
-from {{source('idfm', 'sdap_lignes_bus_inscrites')}}
+SELECT
+    * EXCEPT(nom_ligne),
+    nom_ligne AS libelle_ligne
+FROM {{ source('idfm', 'climatisation') }}
