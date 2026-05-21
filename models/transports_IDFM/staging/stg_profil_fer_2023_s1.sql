@@ -25,8 +25,8 @@ clean_data as (
         coalesce(cast(libelle_arret as string), 'Non renseigné') as libelle_arret,
         coalesce(cast(lda as string), '99999') as id_stop_idfm,
         coalesce(cast(cat_jour as string), 'Non renseigné') as categorie_jour,
-        cast(SPLIT(trnc_horr_60, 'H')[OFFSET(0)] as INT64) as heure,
-        cast(pourc_validations as float64) as validations_pct
+        cast(SPLIT(trnc_horr_60, 'H')[OFFSET(0)] as string) as heure,
+        cast(REPLACE(CAST(pourc_validations AS STRING), ',', '.') as float64) as validations_pct
     FROM deduplicated
 )
 
