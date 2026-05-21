@@ -21,5 +21,5 @@ clean_data as (
     SELECT 
         cast(code_stif_trns as string) as id_transporteur_stif,
         cast(code_stif_res as string) as id_reseau_stif,
-        cast(code_stif)
+        cast(code_stif_arret as string) as id_arret_stif,
 )
