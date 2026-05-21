@@ -1,17 +1,16 @@
-{{ config(materialized='table') }}
+{{config(materialized='table')}}
 SELECT 
-    al.id_stop_IDFM,
-    al.id_ligne_idfm,
-    al.libelle_arret,
-    al.longitude,
-    al.latitude,
-    a.niveau_accessibilite,
-    al.ville,
-    al.code_postal
+al.id_stop_IDFM,
+al.id_ligne_idfm,
+al.libelle_arret,
+al.longitude,
+al.latitude,
+a.niveau_accessibilite,
 
-FROM {{ ref('stg_arrets_lignes') }} al
-LEFT JOIN {{ ref('stg_accessibilite_en_gare') }} a
-    ON al.id_stop_IDFM = a.id_stop_IDFM
-Where libelle_arret = 'Mantes-la-Jolie'
+al.ville,
+al.code_postal
 
-order by id_ligne_IDFM
+from {{ref('stg_arrets_lignes')}}  al
+left join  {{ref('stg_accessibilite_en_gare')}}  a using (id_stop_IDFM)
+
+where id_stop_IDFM='43157'

@@ -19,9 +19,9 @@ deduplicated AS (
 
 clean_data AS (
     SELECT 
-        cast(id_ligne_IDFM AS string) AS id_ligne_idfm,
+        cast(id_ligne_IDFM AS string) AS id_ligne_IDFM,
         cast(route_long_name AS string) AS libelle_ligne_long,
-        cast(id_stop_IDFM AS string) AS id_stop_idfm,
+        replace(cast(id_stop_IDFM AS string), 'monomodalStopPlace:', '') AS id_stop_IDFM,
         cast(stop_name AS string) AS libelle_arret,
         cast(stop_lon AS float64) AS longitude,
         cast(stop_lat AS float64) AS latitude,
@@ -33,6 +33,7 @@ clean_data AS (
         cast(code_insee AS string) AS code_postal
     FROM deduplicated
 )
+
 
 SELECT * 
 FROM clean_data
