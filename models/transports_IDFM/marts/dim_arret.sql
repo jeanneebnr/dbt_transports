@@ -6,7 +6,7 @@ al.libelle_arret,
 al.longitude,
 al.latitude,
 a.niveau_accessibilite,
-
+a.note_accessibilite,
 al.ville,
 al.code_postal
 
