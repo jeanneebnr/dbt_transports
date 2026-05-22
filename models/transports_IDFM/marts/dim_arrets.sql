@@ -11,5 +11,5 @@ al.ville,
 al.code_postal
 
 from {{ref('stg_arrets_lignes')}}  al
-left join  {{ref('stg_accessibilite_en_gare')}}  a using (id_stop_IDFM)
+left join  {{ref('stg_accessibilite_en_gare')}}  a using (id_stop_idfm)
 
