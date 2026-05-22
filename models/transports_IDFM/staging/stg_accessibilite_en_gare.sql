@@ -18,7 +18,7 @@ deduplicated AS (
 
 clean_data AS (
     SELECT
-        cast(id_stop_point AS string) AS id_stop_IDFM,
+        cast(id_stop_point AS string) AS id_stop_idfm,
         cast(stop_name AS string)     AS libelle_arret,
         coalesce(cast(accessibility_level_name as string), 'non renseigné') as niveau_accessibilite,
         coalesce(cast(accessibility_level_id as string), 'non renseigné') as note_accessibilite,
