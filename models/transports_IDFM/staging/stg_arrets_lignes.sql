@@ -9,8 +9,8 @@ deduplicated AS (
         SELECT
             *,
             row_number() OVER (
-                PARTITION BY id_ligne_IDFM, id_stop_IDFM
-                ORDER BY id_ligne_IDFM
+                PARTITION BY id_ligne_idfm, id_stop_idfm
+                ORDER BY id_ligne_idfm
             ) AS row_num
         FROM source_data
     )
@@ -19,9 +19,9 @@ deduplicated AS (
 
 clean_data AS (
     SELECT 
-        cast(id_ligne_IDFM AS string) AS id_ligne_IDFM,
+        cast(id_ligne_idfm AS string) AS id_ligne_idfm,
         cast(route_long_name AS string) AS libelle_ligne_long,
-        replace(cast(id_stop_IDFM AS string), 'monomodalStopPlace:', '') AS id_stop_IDFM,
+        replace(cast(id_stop_IDFM AS string), 'monomodalStopPlace:', '') AS id_stop_idfm,
         cast(stop_name AS string) AS libelle_arret,
         cast(stop_lon AS float64) AS longitude,
         cast(stop_lat AS float64) AS latitude,
