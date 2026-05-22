@@ -1,3 +1,5 @@
+{{config(materialized = 'table')}}
+
 WITH all_facts AS (
 
     SELECT
