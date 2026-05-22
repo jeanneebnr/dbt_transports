@@ -1,6 +1,6 @@
 {{config(materialized='table')}}
 SELECT 
-al.id_stop_IDFM,
+al.id_stop_idfm,
 al.id_ligne_idfm,
 al.libelle_arret,
 al.longitude,
