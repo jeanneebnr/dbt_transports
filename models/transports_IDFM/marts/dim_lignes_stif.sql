@@ -77,4 +77,40 @@ FROM (
         id_groupoflines
     FROM {{ ref('stg_nb_surface_2024_t3') }}
 
+      UNION ALL
+
+    SELECT
+        id_transporteur_stif,
+        id_reseau_stif,
+        id_ligne_stif,
+        libelle_ligne,
+        id_groupoflines
+    FROM {{ ref('stg_nb_surface_2023_s1') }}
+      UNION ALL
+
+    SELECT
+        id_transporteur_stif,
+        id_reseau_stif,
+        id_ligne_stif,
+        libelle_ligne,
+        id_groupoflines
+    FROM {{ ref('stg_nb_surface_2023_s2') }}
+      UNION ALL
+
+    SELECT
+        id_transporteur_stif,
+        id_reseau_stif,
+        id_ligne_stif,
+        libelle_ligne,
+        id_groupoflines
+    FROM {{ ref('stg_nb_surface_2024_s1') }}
+
+    SELECT
+        id_transporteur_stif,
+        id_reseau_stif,
+        id_ligne_stif,
+        libelle_ligne,
+        id_groupoflines
+    FROM {{ ref('stg_nb_surface_2024_t3') }}
+
 )
