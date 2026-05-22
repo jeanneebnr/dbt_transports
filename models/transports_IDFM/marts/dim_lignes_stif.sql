@@ -84,33 +84,37 @@ FROM (
         id_reseau_stif,
         id_ligne_stif,
         libelle_ligne,
-        id_groupoflines
-    FROM {{ ref('stg_nb_surface_2023_s1') }}
-      UNION ALL
+        id_groupofligne as id_groupoflines
+    FROM {{ ref('stg_profil_surface_2023_s1') }}
+      
+    UNION ALL
 
     SELECT
         id_transporteur_stif,
         id_reseau_stif,
         id_ligne_stif,
         libelle_ligne,
-        id_groupoflines
-    FROM {{ ref('stg_nb_surface_2023_s2') }}
-      UNION ALL
+        id_groupofligne as id_groupoflines
+    FROM {{ ref('stg_profil_surface_2023_s2') }}
+    
+    UNION ALL
 
     SELECT
         id_transporteur_stif,
         id_reseau_stif,
         id_ligne_stif,
         libelle_ligne,
-        id_groupoflines
-    FROM {{ ref('stg_nb_surface_2024_s1') }}
-
+        id_groupofligne as id_groupoflines
+    FROM {{ ref('stg_profil_surface_2024_s1') }}
+    
+    UNION ALL
+    
     SELECT
         id_transporteur_stif,
         id_reseau_stif,
         id_ligne_stif,
         libelle_ligne,
-        id_groupoflines
-    FROM {{ ref('stg_nb_surface_2024_t3') }}
+        id_groupofligne as id_groupoflines
+    FROM {{ ref('stg_profil_surface_2024_t3') }}
 
 )
