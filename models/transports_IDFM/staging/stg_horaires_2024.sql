@@ -1,4 +1,24 @@
-
-select * EXCEPT (heure), 
-    cast(heure as string) as heure
-from {{source('idfm', 'horaires_2024')}}
+SELECT
+    date,
+    annee,
+    mois,
+    jour,
+    jour_semaine,
+    CAST(heure AS STRING) AS heure,
+    tranche_horaire,
+    id_ligne_IDFM,
+    ligne_nom,
+    type_transport,
+    frequence_theorique_par_heure,
+    frequence_reelle_par_heure,
+    taux_service_pct,
+    retard_moyen_minutes,
+    facteur_retard,
+    incident_detecte,
+    incident_type,
+    temperature,
+    precipitation,
+    neige,
+    vent,
+    meteo_defavorable
+FROM {{ source('idfm', 'horaires_2024') }}
