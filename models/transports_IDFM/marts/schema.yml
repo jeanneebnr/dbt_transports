@@ -1,0 +1,230 @@
+version: 2
+
+models:
+  - name: dim_arrets
+    columns:
+      - name: id_stop_idfm
+        tests:
+          - not_null
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+      - name: libelle_arret
+        tests:
+          - not_null
+      - name: latitude
+        tests:
+          - not_null
+      - name: longitude
+        tests:
+          - not_null
+
+  - name: dim_arrets_idfm
+    columns:
+      - name: id_stop_idfm
+        tests:
+          - not_null
+          - unique
+      - name: libelle_arret
+        tests:
+          - not_null
+      - name: latitude
+        tests:
+          - not_null
+      - name: longitude
+        tests:
+          - not_null
+
+  - name: dim_arrets_lignes
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+      - name: id_stop_idfm
+        tests:
+          - not_null
+
+  - name: dim_arrets_stif
+    columns:
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: id_reseau_stif
+        tests:
+          - not_null
+      - name: libelle_arret
+        tests:
+          - not_null
+
+  - name: dim_categorie_titres
+    columns:
+      - name: id_titre
+        tests:
+          - not_null
+          - unique
+      - name: titre
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_date
+    columns:
+      - name: date
+        tests:
+          - not_null
+          - unique
+      - name: annee
+        tests:
+          - not_null
+      - name: mois
+        tests:
+          - not_null
+      - name: jour
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+
+
+
+  - name: dim_lignes_idfm
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+          - unique
+      - name: libelle_ligne_long
+        tests:
+          - not_null
+      - name: type_transport
+        tests:
+          - not_null
+      - name: surface_or_fer
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['fer', 'surface', 'non classifié']
+
+  - name: dim_lignes_stif
+    columns:
+      - name: id_ligne_stif
+        tests:
+          - not_null
+          - unique
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: id_reseau_stif
+        tests:
+          - not_null
+      - name: libelle_ligne
+        tests:
+          - not_null
+
+  - name: fact_meteo
+    columns:
+      - name: id_meteo
+        tests:
+          - not_null
+          - unique
+      - name: date
+        tests:
+          - not_null
+          - unique
+      - name: temp_moy
+        tests:
+          - not_null
+      - name: temp_max
+        tests:
+          - not_null
+      - name: temp_min
+        tests:
+          - not_null
+
+  - name: fact_nb_surface
+    columns:
+      - name: id_ligne
+        tests:
+          - not_null
+      - name: date
+        tests:
+          - not_null
+      - name: id_titre
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_categorie_titres')
+                field: id_titre
+      - name: nb_validation
+        tests:
+          - not_null
+
+  - name: fact_profil_fer
+    columns:
+      - name: id_zone_arret
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: heure
+        tests:
+          - not_null
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: fact_profil_surface
+    columns:
+      - name: id_groupofligne
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: heure
+        tests:
+          - not_null
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: fact_trafic_heure
+    columns:
+      - name: id_trafic
+        tests:
+          - not_null
+          - unique
+      - name: date
+        tests:
+          - not_null
+      - name: heure
+        tests:
+          - not_null
+      - name: id_ligne
+        tests:
+          - not_null
+      - name: freq_theo
+        tests:
+          - not_null
+      - name: freq_reel
+        tests:
+          - not_null
+      - name: taux_service_pct
+        tests:
+          - not_null
+      - name: retard_moyen_minute
+        tests:
+          - not_null
