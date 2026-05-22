@@ -36,7 +36,7 @@ SELECT DISTINCT
     ip.resultat
 FROM {{ref('stg_climatisation')}} as c
 LEFT JOIN {{ref('stg_arrets_lignes')}} as al
-ON c.id_ligne_IDFM = al.id_ligne_idfm
+ON c.id_ligne_idfm = al.id_ligne_idfm
 LEFT JOIN {{ref('stg_liste_transporteurs')}} as lt
 ON al.libelle_transporteur = lt.libelle_transporteur
 LEFT JOIN {{ref('stg_indicateurs_de_perception_qs')}} as ip
