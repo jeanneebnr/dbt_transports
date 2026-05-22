@@ -1,6 +1,6 @@
 {{config(materialized='table')}}
 SELECT 
-al.id_stop_IDFM,
+al.id_stop_idfm,
 al.id_ligne_idfm,
 al.libelle_arret,
 al.longitude,
@@ -11,5 +11,5 @@ al.ville,
 al.code_postal
 
 from {{ref('stg_arrets_lignes')}}  al
-left join  {{ref('stg_accessibilite_en_gare')}}  a using (id_stop_IDFM)
+left join  {{ref('stg_accessibilite_en_gare')}}  a using (id_stop_idfm)
 
