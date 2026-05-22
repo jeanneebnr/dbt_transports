@@ -6,7 +6,7 @@ SELECT
     jour_semaine,
     CAST(heure AS STRING) AS heure,
     tranche_horaire,
-    id_ligne_IDFM,
+    id_ligne_IDFM AS id_ligne_idfm,
     ligne_nom,
     type_transport,
     frequence_theorique_par_heure,
