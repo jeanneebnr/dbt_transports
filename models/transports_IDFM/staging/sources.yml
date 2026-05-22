@@ -34,4 +34,9 @@ sources:
       - name: profil_surface_2024_s1
       - name: profil_surface_2024_t3
       
-      
+  - name: idfm
+    database: projet-final-496714
+    schema: stif_to_idfm
+
+    table:
+      - name: referentiel_lignes     
