@@ -28,7 +28,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['airConditioning', 'noConditioning', 'other']
+              arguments:
+                values: ['airConditioning', 'noConditioning', 'other']
 
   - name: stg_horaires_2023
     columns:
@@ -228,7 +229,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -242,7 +244,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -256,7 +259,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -270,7 +274,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -284,7 +289,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -298,7 +304,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -312,7 +319,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
@@ -326,7 +334,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+              arguments:
+                values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
       - name: validations_pct
         tests:
           - not_null
