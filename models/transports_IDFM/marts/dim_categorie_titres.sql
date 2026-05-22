@@ -1,15 +1,20 @@
-{{config(materialized='table')}}
-
-WITH clean AS (
-    SELECT DISTINCT
-        REPLACE(REPLACE(categorie_titre, 'Ã©', 'e'), 'ï¿½', 'e') AS titre
-    FROM {{ ref('stg_nb_fer_2024_s1') }}
-)
+{{ config(materialized='table') }}
 
 SELECT
-    DENSE_RANK() OVER (ORDER BY titre) AS id_titre,
-    titre
-FROM clean
-   
-
-
+    ROW_NUMBER() OVER (ORDER BY categorie_titre) AS id_titre,
+    categorie_titre                               AS titre
+FROM (
+    SELECT DISTINCT TRIM(categorie_titre) AS categorie_titre FROM {{ source('idfm', 'nb_surface_2023_t1') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2023_t2') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2023_t3') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2023_t4') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2024_t1') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2024_t2') }}
+    UNION DISTINCT
+    SELECT DISTINCT TRIM(categorie_titre) FROM {{ source('idfm', 'nb_surface_2024_t3') }}
+)
