@@ -1,0 +1,50 @@
+version: 2
+
+models:
+
+  - name: dim_arrets_idfm
+    description: "Dimension des arrêts IDFM avec leur niveau d'accessibilité PMR"
+
+
+  - name: dim_arrets_lignes
+    description: "Table de jonction entre les arrêts et les lignes IDFM"
+
+
+  - name: dim_lignes_idfm
+    description: "Dimension des lignes IDFM avec transporteur, mode de transport et réservation"
+    
+
+  - name: dim_arrets_stif
+    description: "Dimension des arrêts du réseau ferré avec identifiant STIF"
+    
+
+  - name: dim_lignes_stif
+    description: "Dimension des lignes STIF avec code transporteur et groupe de lignes"
+   
+
+  - name: dim_categorie_titres
+    description: "Dimension des titres de transport utilisés pour valider"
+  - name: dim_liste_transporteurs
+    description: "Dimension des entreprises transporteurs et leurs références"
+  - name: dim_date
+    description: "Dimension date pour l'analyse temporelle"
+
+
+  - name: fact_nb_fer
+    description: "Table de faits de la fréquentation du réseau ferré"
+  
+
+  - name: fact_nb_surface
+    description: "Table de faits de la fréquentation du réseau de surface"
+   
+
+  - name: fact_profil_fer
+    description: "Table de faits du profil de fréquentation ferrés"
+  - name: fact_profil_surface
+    description: "Table de faits du profil de fréquentation  des transport de surface"
+
+  - name: fact_meteo
+    description: "Table donnant les informations sur les precipitations, la vitesse du vent,la pluie... durant les années 2023-2024"
+
+  - name: fact_trafic_heure
+    description: "Table de faits comparant les flux de frequentation selon l'horaire avec une analyse des retards"
