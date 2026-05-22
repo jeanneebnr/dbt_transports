@@ -38,5 +38,5 @@ sources:
     database: projet-final-496714
     schema: stif_to_idfm
 
-    table:
+    tables:
       - name: referentiel_lignes     
