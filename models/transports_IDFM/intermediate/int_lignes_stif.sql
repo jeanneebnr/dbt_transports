@@ -80,14 +80,13 @@ filtered AS (
 
 SELECT
 
+    -- 👇 TES ALIAS EXACTS (NE PAS TOUCHER)
     CONCAT(
         LPAD(CAST(id_transporteur_stif AS STRING), 3, '0'),
         LPAD(CAST(id_reseau_stif AS STRING), 3, '0'),
         LPAD(CAST(id_ligne_stif AS STRING), 3, '0')
     ) AS privatecode,
 
-    id_transporteur_stif,
-    id_reseau_stif,
     id_ligne_stif,
 
     libelle_ligne
