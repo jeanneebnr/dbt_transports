@@ -1,0 +1,332 @@
+version: 2
+
+models:
+  - name: stg_accessibilite_en_gare
+    columns:
+      - name: id_stop_idfm
+        tests:
+          - not_null
+      - name: niveau_accessibilite
+        tests:
+          - not_null
+
+  - name: stg_arrets_lignes
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+      - name: id_stop_idfm
+        tests:
+          - not_null
+
+  - name: stg_climatisation
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+      - name: climatisation
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['airConditioning', 'noConditioning', 'other']
+
+  - name: stg_horaires_2023
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+
+  - name: stg_horaires_2024
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+
+  - name: stg_indicateurs_de_perception_qs
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+      - name: resultat
+        tests:
+          - not_null
+
+  - name: stg_lignes_referentiel
+    columns:
+      - name: id_ligne_idfm
+        tests:
+          - not_null
+          - unique
+      - name: libelle_ligne
+        tests:
+          - not_null
+      - name: valid_fromdate
+        tests:
+          - not_null
+      - name: valid_todate
+        tests:
+          - not_null
+
+  - name: stg_liste_transporteurs
+    columns:
+      - name: transporteur_ref
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_meteo_paris_2023_2024
+    columns:
+      - name: date
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_nb_fer_2023_s1
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_fer_2023_s2
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_fer_2024_s1
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_fer_2024_t3
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2023_t1
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2023_t2
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2023_t3
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2023_t4
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2024_t1
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2024_t2
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_nb_surface_2024_t3
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: stg_profil_fer_2023_s1
+    columns:
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_fer_2023_s2
+    columns:
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_fer_2024_s1
+    columns:
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_fer_2024_t3
+    columns:
+      - name: id_transporteur_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_surface_2023_s1
+    columns:
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_surface_2023_s2
+    columns:
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_surface_2024_s1
+    columns:
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
+
+  - name: stg_profil_surface_2024_t3
+    columns:
+      - name: id_ligne_stif
+        tests:
+          - not_null
+      - name: categorie_jour
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
+      - name: validations_pct
+        tests:
+          - not_null
