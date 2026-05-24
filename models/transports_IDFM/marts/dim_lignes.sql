@@ -10,17 +10,9 @@ WITH base AS (
     WHERE id_ligne_idfm IS NOT NULL
 ),
 
-stif AS (
-    SELECT
-        privatecode,
-        id_ligne_stif
-    FROM {{ ref('int_lignes_stif') }}
-),
-
 arrets_lignes AS (
     SELECT
         id_ligne_idfm,
-        libelle_ligne_court,
         type_transport AS type_transport_arrets,
         libelle_transporteur AS libelle_transporteur_arrets
     FROM {{ ref('stg_arrets_lignes') }}
@@ -59,26 +51,29 @@ SELECT
     base.id_ligne_stif,
     base.privatecode,
 
-    -- Libellé
+    -- Libellés
     base.libelle_ligne,
-    al.libelle_ligne_court,
 
-    -- Type transport (les deux sources pour comparaison)
-    al.type_transport_arrets,
-    ind.type_transport_indicateurs,
-    COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) AS type_transport,
+    -- Type transport normalisé
+    CASE
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) = 'Tramway'
+             AND al.libelle_ligne IN ('T4', 'T11', 'T12', 'T14') THEN 'Tram-train'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Tramway', 'Tram-train') THEN 'Tramway'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Metro', 'Métro') THEN 'Metro'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('RapidTransit', 'RER') THEN 'RapidTransit'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('LocalTrain', 'Train') THEN 'LocalTrain'
+        ELSE COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs)
+    END AS type_transport,
 
     -- Surface or fer
     CASE
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) = 'Tramway'
-             AND al.libelle_ligne_court IN ('T4', 'T11') THEN 'fer'
-        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) = 'Tramway' THEN 'surface'
+             AND al.libelle_ligne IN ('T4', 'T11', 'T12', 'T14') THEN 'fer'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Tramway', 'Tram-train') THEN 'surface'
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN (
-            'RapidTransit', 'regionalRail', 'LocalTrain', 'RailShuttle', 'Metro'
+            'RapidTransit', 'RER', 'regionalRail', 'LocalTrain', 'Train', 'RailShuttle', 'Metro', 'Métro'
         ) THEN 'fer'
-        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN (
-            'Bus', 'Funicular'
-        ) THEN 'surface'
+        WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Bus', 'Funicular') THEN 'surface'
         ELSE 'non classifié'
     END AS surface_or_fer,
 
@@ -88,7 +83,7 @@ SELECT
     -- Indicateur de perception
     ind.indicateur_perception,
 
-    -- Transporteur (les deux sources pour comparaison)
+    -- Transporteur
     al.libelle_transporteur_arrets,
     ind.libelle_transporteur_indicateurs,
     COALESCE(al.libelle_transporteur_arrets, ind.libelle_transporteur_indicateurs) AS libelle_transporteur,
@@ -97,10 +92,7 @@ SELECT
     tr.id_operateur
 
 FROM base
-LEFT JOIN arrets_lignes al      ON base.id_ligne_idfm = al.id_ligne_idfm
-LEFT JOIN indicateurs ind       ON base.id_ligne_idfm = ind.id_ligne_idfm
-LEFT JOIN climatisation clim    ON base.id_ligne_idfm = clim.id_ligne_idfm
-LEFT JOIN transporteurs tr      ON COALESCE(
-                                        al.libelle_transporteur_arrets,
-                                        ind.libelle_transporteur_indicateurs
-                                    ) = tr.libelle_transporteur
+LEFT JOIN arrets_lignes al   ON base.id_ligne_idfm = al.id_ligne_idfm
+LEFT JOIN indicateurs ind    ON base.id_ligne_idfm = ind.id_ligne_idfm
+LEFT JOIN climatisation clim ON base.id_ligne_idfm = clim.id_ligne_idfm
+LEFT JOIN transporteurs tr   ON al.libelle_transporteur_arrets = tr.libelle_transporteur

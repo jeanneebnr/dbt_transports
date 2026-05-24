@@ -74,8 +74,7 @@ filtered AS (
             LPAD(CAST(id_ligne_stif AS STRING), 3, '0')
         ) AS privatecode,
         id_ligne_stif,
-        libelle_ligne,
-        LENGTH(libelle_ligne) AS len_libelle
+        libelle_ligne
     FROM all_facts
     WHERE id_transporteur_stif IS NOT NULL
       AND id_reseau_stif IS NOT NULL
@@ -91,5 +90,5 @@ SELECT
     id_ligne_stif,
     libelle_ligne
 FROM filtered
-QUALIFY ROW_NUMBER() OVER (PARTITION BY privatecode ORDER BY len_libelle DESC) = 1
+QUALIFY ROW_NUMBER() OVER (PARTITION BY privatecode ORDER BY LENGTH(libelle_ligne) DESC) = 1
 ORDER BY id_ligne_stif
