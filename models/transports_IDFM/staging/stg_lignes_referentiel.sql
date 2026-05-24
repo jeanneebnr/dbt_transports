@@ -3,6 +3,7 @@ SELECT
     name_line AS libelle_ligne,
     privatecode,
     id_groupoflines,
+    networkname,
     valid_fromdate,
     valid_todate
 
