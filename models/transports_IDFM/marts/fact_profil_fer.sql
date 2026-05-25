@@ -19,7 +19,7 @@ WITH source AS (
 
 )
 
-SELECT DISTINCT
+SELECT
     daz.id_arret,
     nf.libelle_arret,
     nf.categorie_jour,
