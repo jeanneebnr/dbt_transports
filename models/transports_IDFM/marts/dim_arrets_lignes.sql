@@ -20,4 +20,4 @@ WHERE
     al.id_stop_idfm IS NOT NULL
     AND dl.id_ligne IS NOT NULL
 
-ORDER BY id_arret_zdc desc
+ORDER BY id_arret_zdc DESC
