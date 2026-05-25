@@ -27,7 +27,6 @@ accessibilite AS (
 
     SELECT
         id_stop_idfm AS id_arret_idfm,
-
         niveau_accessibilite,
         note_accessibilite
 
@@ -38,7 +37,8 @@ accessibilite AS (
 SELECT
 
     al.id_arret_idfm,
-    al.id_zdc,
+
+    COALESCE(al.id_zdc, 'UNMAPPED_ZDC') AS id_zdc,
 
     al.libelle_arret,
     al.ville,
@@ -59,6 +59,6 @@ LEFT JOIN accessibilite acc
     ON al.id_arret_idfm = acc.id_arret_idfm
 
 QUALIFY ROW_NUMBER() OVER (
-    PARTITION BY al.id_zdc
+    PARTITION BY COALESCE(al.id_zdc, 'UNMAPPED_ZDC')
     ORDER BY LENGTH(al.libelle_arret) DESC
 ) = 1
