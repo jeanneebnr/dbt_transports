@@ -1,50 +1,41 @@
 {{ config(materialized='table') }}
 
-SELECT
-    d.date,
-    f.id_zone_arret,
-    t.titre,
-    f.validations_nb
-
-FROM (
+WITH source AS (
 
     SELECT
-        date,
-        id_zone_arret,
-        categorie_titre,
-        validations_nb
+       *
     FROM {{ ref('stg_nb_fer_2023_s1') }}
 
     UNION ALL
 
     SELECT
-        date,
-        id_zone_arret,
-        categorie_titre,
-        validations_nb
+      *
     FROM {{ ref('stg_nb_fer_2023_s2') }}
 
     UNION ALL
 
     SELECT
-        date,
-        id_zone_arret,
-        categorie_titre,
-        validations_nb
+        *
     FROM {{ ref('stg_nb_fer_2024_s1') }}
 
     UNION ALL
 
-    SELECT
-        date,
-        id_zone_arret,
-        categorie_titre,
-        validations_nb
+    SELECT*
     FROM {{ ref('stg_nb_fer_2024_t3') }}
 
-) f
+)  
 
+SELECT
+    d.date,
+    nf.id_zone_arret,
+    nf.libelle_arret,
+    t.titre,
+    nf.validations_nb
 
+FROM source  nf
 
-JOIN {{ ref('dim_categorie_titres') }} t  on f.categorie_titre = t.titre
-JOIN {{ ref('dim_date') }} d using(date)
+JOIN {{ ref('dim_categorie_titres') }} t
+    ON nf.categorie_titre = t.titre
+left JOIN {{ ref('dim_arrets_zdc') }} a on cast(a.id_arret as string ) = cast(nf.id_zone_arret as string)
+JOIN {{ ref('dim_date') }} d
+    USING (date)
