@@ -39,4 +39,5 @@ sources:
     schema: stif_to_idfm
 
     tables:
-      - name: referentiel_lignes     
+      - name: referentiel_lignes
+      - name: referentiel_arrets 
