@@ -1,9 +1,9 @@
 {{ config(materialized='table') }}
 
 WITH union_horaires AS (
-    SELECT * FROM {{ source('idfm', 'horaires_2023') }}
+    SELECT * FROM {{ ref('stg_horaires_2023') }}
     UNION ALL
-    SELECT * FROM {{ source('idfm', 'horaires_2024') }}
+    SELECT * FROM {{ ref('stg_horaires_2024') }}
 )
 
 SELECT
@@ -19,5 +19,4 @@ SELECT
     CAST(facteur_retard AS FLOAT64)                   AS facteur_retard,
     CAST(incident_detecte AS BOOL)                    AS incident_detecte,
     CAST(incident_type AS STRING)                     AS incident_type
-
-FROM union_horaires
+from union_horaires

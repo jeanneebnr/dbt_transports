@@ -1,6 +1,7 @@
 {{ config(materialized='table') }}
 
 WITH union_nb_surface AS (
+
     SELECT * FROM {{ ref('stg_nb_surface_2023_t1') }}
     UNION ALL
     SELECT * FROM {{ ref('stg_nb_surface_2023_t2') }}
@@ -22,6 +23,7 @@ SELECT
     dc.id_titre AS id_titre,
     ns.validations_nb
 
+
 FROM union_nb_surface AS ns
 
 LEFT JOIN {{ ref('dim_lignes') }} AS dl
@@ -32,4 +34,4 @@ LEFT JOIN {{ ref('dim_lignes') }} AS dl
 ) = dl.privatecode
 
 LEFT JOIN {{ ref('dim_categorie_titres') }} AS dc
-    ON TRIM(ns.categorie_titre) = TRIM(dc.titre)
+ON TRIM(ns.categorie_titre) = TRIM(dc.titre)
