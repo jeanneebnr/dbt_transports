@@ -1,38 +1,33 @@
 {{ config(materialized='table') }}
 
 WITH source AS (
-
-    SELECT *
+    SELECT *,
+    '2024_s1' AS periode
     FROM {{ ref('stg_profil_fer_2024_s1') }}
-
     UNION ALL
-
-    SELECT *
+    SELECT *,
+    '2024_t3' AS periode
     FROM {{ ref('stg_profil_fer_2024_t3') }}
-
     UNION ALL
-
-    SELECT *
+    SELECT *,
+    '2023_s1' AS periode
     FROM {{ ref('stg_profil_fer_2023_s1') }}
-
     UNION ALL
-
-    SELECT *
+    SELECT *,
+    '2023_s2' AS periode
     FROM {{ ref('stg_profil_fer_2023_s2') }}
 
 )
 
 SELECT DISTINCT
-    dl.id_ligne,
-    dl.privatecode,
+    daz.id_arret,
     nf.libelle_arret,
     nf.categorie_jour,
     nf.heure,
+    nf.periode,
     nf.validations_pct
 
 FROM source nf
-
-JOIN {{ ref('dim_lignes') }} dl
-ON CONCAT(
-    TRIM(CAST(nf.id_transporteur_stif AS STRING)),TRIM(CAST(nf.id_reseau_stif AS STRING)),
-    TRIM(CAST(nf.id_arret_stif AS STRING))) = TRIM(dl.privatecode)
+JOIN {{ref('dim_arrets_zdc')}}  daz
+ON nf.id_zone_arret = daz.id_zdc
+ORDER BY id_arret, categorie_jour, periode, heure
