@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH arrets_lignes AS (
 
     SELECT

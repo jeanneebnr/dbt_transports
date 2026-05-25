@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 SELECT
     d.date,
     f.id_zone_arret,
