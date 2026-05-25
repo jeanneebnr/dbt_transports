@@ -1,4 +1,4 @@
-  select
+SELECT
     PARSE_DATE('%d/%m/%Y', jour) as date,
     cast(code_stif_trns as string) as id_transporteur_stif,
     cast(code_stif_res as string) as id_reseau_stif,
