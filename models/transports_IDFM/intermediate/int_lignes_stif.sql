@@ -63,6 +63,42 @@ WITH all_facts AS (
         libelle_ligne
     FROM {{ ref('stg_nb_surface_2024_t3') }}
 
+    UNION ALL
+
+    SELECT
+        SAFE_CAST(TRIM(id_transporteur_stif) AS INT64) AS id_transporteur_stif,
+        SAFE_CAST(TRIM(id_reseau_stif) AS INT64) AS id_reseau_stif,
+        SAFE_CAST(TRIM(id_ligne_stif) AS INT64) AS id_ligne_stif,
+        libelle_ligne
+    FROM {{ ref('stg_profil_surface_2023_s1') }}
+
+    UNION ALL
+
+    SELECT
+        SAFE_CAST(TRIM(id_transporteur_stif) AS INT64),
+        SAFE_CAST(TRIM(id_reseau_stif) AS INT64),
+        SAFE_CAST(TRIM(id_ligne_stif) AS INT64),
+        libelle_ligne
+    FROM {{ ref('stg_profil_surface_2023_s2') }}
+
+    UNION ALL
+
+    SELECT
+        SAFE_CAST(TRIM(id_transporteur_stif) AS INT64),
+        SAFE_CAST(TRIM(id_reseau_stif) AS INT64),
+        SAFE_CAST(TRIM(id_ligne_stif) AS INT64),
+        libelle_ligne
+    FROM {{ ref('stg_profil_surface_2024_s1') }}
+
+    UNION ALL
+
+    SELECT
+        SAFE_CAST(TRIM(id_transporteur_stif) AS INT64),
+        SAFE_CAST(TRIM(id_reseau_stif) AS INT64),
+        SAFE_CAST(TRIM(id_ligne_stif) AS INT64),
+        libelle_ligne
+    FROM {{ ref('stg_profil_surface_2024_t3') }}
+
 ),
 
 filtered AS (
