@@ -1,57 +1,78 @@
 version: 2
 
 models:
-  - name: dim_arrets
-    columns:
-      - name: id_stop_idfm
-        tests:
-          - not_null
-      - name: id_ligne_idfm
-        tests:
-          - not_null
-      - name: libelle_arret
-        tests:
-          - not_null
-      - name: latitude
-        tests:
-          - not_null
-      - name: longitude
-        tests:
-          - not_null
 
-  - name: dim_arrets_idfm
+  # ============================================================
+  # INTERMEDIAIRES
+  # ============================================================
+
+  - name: int_arrets_idfm
     columns:
-      - name: id_stop_idfm
+      - name: id_arret_idfm
         tests:
           - not_null
           - unique
-      - name: libelle_arret
-        tests:
-          - not_null
-      - name: latitude
-        tests:
-          - not_null
-      - name: longitude
+      - name: id_zdc
         tests:
           - not_null
 
-  - name: dim_arrets_lignes
+  - name: int_arrets_stif
     columns:
-      - name: id_ligne_idfm
+      - name: id_arret_stif
         tests:
           - not_null
-      - name: id_stop_idfm
+      - name: id_zdc
         tests:
           - not_null
-
-  - name: dim_arrets_stif
-    columns:
       - name: id_transporteur_stif
         tests:
           - not_null
-      - name: id_reseau_stif
+
+  - name: int_arrets_total
+    columns:
+      - name: id_zdc
         tests:
           - not_null
+      - name: zdc_origin
+        tests:
+          - not_null
+
+  - name: int_lignes_idfm
+    columns:
+      - name: id_ligne_idfm
+        tests: []
+
+  - name: int_lignes_stif
+    columns:
+      - name: private_code
+        tests:
+          - not_null
+          - unique
+
+  - name: int_lignes_total
+    columns:
+      - name: private_code
+        tests: []
+
+  # ============================================================
+  # DIMENSIONS
+  # ============================================================
+
+  - name: dim_arrets_lignes
+    columns:
+      - name: id_arret_zda
+        tests:
+          - not_null
+      - name: id_ligne
+        tests:
+          - not_null
+
+  - name: dim_arrets_zdc
+    columns:
+      - name: id_arret
+        tests:
+          - not_null
+          - unique
       - name: libelle_arret
         tests:
           - not_null
@@ -89,42 +110,34 @@ models:
               arguments:
                 values: ['DIJFP', 'JOHV', 'JOVS', 'SAHV', 'SAVS']
 
-
-
-  - name: dim_lignes_idfm
+  - name: dim_lignes
     columns:
-      - name: id_ligne_idfm
+      - name: id_ligne
         tests:
           - not_null
           - unique
-      - name: libelle_ligne_long
-        tests:
-          - not_null
-      - name: type_transport
-        tests:
-          - not_null
       - name: surface_or_fer
         tests:
-          - not_null
           - accepted_values:
               arguments:
                 values: ['fer', 'surface', 'non classifié']
 
-  - name: dim_lignes_stif
+  - name: dim_liste_transporteurs
     columns:
-      - name: id_ligne_stif
+      - name: id_operateur
         tests:
           - not_null
           - unique
-      - name: id_transporteur_stif
+      - name: libelle_transporteur
         tests:
           - not_null
-      - name: id_reseau_stif
+      - name: transporteur_ref
         tests:
           - not_null
-      - name: libelle_ligne
-        tests:
-          - not_null
+
+  # ============================================================
+  # FACTS
+  # ============================================================
 
   - name: fact_meteo
     columns:
@@ -146,11 +159,27 @@ models:
         tests:
           - not_null
 
-  - name: fact_nb_surface
+  - name: fact_nb_fer
     columns:
-      - name: id_ligne
+      - name: date
         tests:
           - not_null
+      - name: id_arret
+        tests:
+          - not_null
+      - name: id_titre
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_categorie_titres')
+                field: id_titre
+      - name: validations_nb
+        tests:
+          - not_null
+
+  - name: fact_nb_surface
+    columns:
       - name: date
         tests:
           - not_null
@@ -161,13 +190,13 @@ models:
               arguments:
                 to: ref('dim_categorie_titres')
                 field: id_titre
-      - name: nb_validation
+      - name: validations_nb
         tests:
           - not_null
 
   - name: fact_profil_fer
     columns:
-      - name: id_zone_arret
+      - name: id_arret
         tests:
           - not_null
       - name: categorie_jour
@@ -185,9 +214,6 @@ models:
 
   - name: fact_profil_surface
     columns:
-      - name: id_groupofligne
-        tests:
-          - not_null
       - name: categorie_jour
         tests:
           - not_null

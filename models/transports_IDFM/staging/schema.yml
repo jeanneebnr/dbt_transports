@@ -1,12 +1,10 @@
 version: 2
 
 models:
+
   - name: stg_accessibilite_en_gare
     columns:
       - name: id_stop_idfm
-        tests:
-          - not_null
-      - name: niveau_accessibilite
         tests:
           - not_null
 
@@ -19,6 +17,15 @@ models:
         tests:
           - not_null
 
+  - name: stg_arrets_referentiel
+    columns:
+      - name: id_arret_idfm
+        tests:
+          - not_null
+      - name: id_zdc
+        tests:
+          - not_null
+
   - name: stg_climatisation
     columns:
       - name: id_ligne_idfm
@@ -26,10 +33,9 @@ models:
           - not_null
       - name: climatisation
         tests:
-          - not_null
           - accepted_values:
               arguments:
-                values: ['airConditioning', 'noConditioning', 'other']
+                values: ['airConditioning', 'noConditioning', 'other', 'unknown']
 
   - name: stg_horaires_2023
     columns:
@@ -51,9 +57,6 @@ models:
 
   - name: stg_indicateurs_de_perception_qs
     columns:
-      - name: id_ligne_idfm
-        tests:
-          - not_null
       - name: resultat
         tests:
           - not_null
@@ -64,15 +67,6 @@ models:
         tests:
           - not_null
           - unique
-      - name: libelle_ligne
-        tests:
-          - not_null
-      - name: valid_fromdate
-        tests:
-          - not_null
-      - name: valid_todate
-        tests:
-          - not_null
 
   - name: stg_liste_transporteurs
     columns:

@@ -3,6 +3,13 @@ WITH source_data AS (
     FROM {{ source('idfm', 'climatisation') }}
 ),
 
+filtered AS (
+    SELECT *
+    FROM source_data
+    WHERE climatisation != 'climatisation'
+      AND id_ligne_IDFM != 'id_ligne_IDFM'
+),
+
 deduplicated AS (
     SELECT *
     FROM (
@@ -12,7 +19,7 @@ deduplicated AS (
                 PARTITION BY id_ligne_IDFM
                 ORDER BY nom_ligne
             ) AS row_num
-        FROM source_data
+        FROM filtered
     )
     WHERE row_num = 1
 ),
