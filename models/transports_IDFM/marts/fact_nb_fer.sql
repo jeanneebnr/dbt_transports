@@ -22,8 +22,8 @@ WITH source AS (
 SELECT
     d.date,
     a.id_arret,
-    nf.libelle_arret,
-    t.titre,
+    
+    t.id_titre,
     nf.validations_nb
 
 FROM source  nf
