@@ -20,9 +20,9 @@ WITH union_nb_surface AS (
 SELECT
     dl.id_ligne AS id_ligne,
     CONCAT(
-    LPAD(CAST(SAFE_CAST(TRIM(pf.id_transporteur_stif) AS INT64) AS STRING), 3, '0'),
-    LPAD(CAST(SAFE_CAST(TRIM(pf.id_reseau_stif) AS INT64) AS STRING), 3, '0'),
-    LPAD(CAST(SAFE_CAST(TRIM(pf.id_ligne_stif) AS INT64) AS STRING), 3, '0')) as private_code,
+    LPAD(CAST(SAFE_CAST(TRIM(ns.id_transporteur_stif) AS INT64) AS STRING), 3, '0'),
+    LPAD(CAST(SAFE_CAST(TRIM(ns.id_reseau_stif) AS INT64) AS STRING), 3, '0'),
+    LPAD(CAST(SAFE_CAST(TRIM(ns.id_ligne_stif) AS INT64) AS STRING), 3, '0')) as private_code,
     ns.date,
     dc.id_titre AS id_titre,
     ns.validations_nb
