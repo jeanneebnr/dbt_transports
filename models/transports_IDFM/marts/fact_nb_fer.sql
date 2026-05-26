@@ -21,7 +21,7 @@ WITH source AS (
 
 SELECT
     d.date,
-    nf.id_zone_arret,
+    a.id_arret,
     nf.libelle_arret,
     t.titre,
     nf.validations_nb
@@ -32,7 +32,7 @@ JOIN {{ ref('dim_categorie_titres') }} t
 ON nf.categorie_titre = t.titre
 
 LEFT JOIN {{ ref('dim_arrets_zdc') }} a 
-ON cast(a.id_arret as string ) = cast(nf.id_zone_arret as string)
+ON cast(a.id_zdc as string ) = cast(nf.id_zone_arret as string)
 
 JOIN {{ ref('dim_date') }} d
 USING (date)
