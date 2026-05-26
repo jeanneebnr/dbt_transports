@@ -30,7 +30,7 @@ SELECT
 
     arr_total.zdc_origin,
 
-    arr_total.privatecode_arret,
+    arr_total.privatecode_arret as private_code_arret,
 
     COALESCE(
         arr_total.libelle_arret_stif,
