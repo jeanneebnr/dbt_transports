@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 SELECT 
     al.id_stop_idfm as id_stop_zda,
     aeg.niveau_accessibilite,
