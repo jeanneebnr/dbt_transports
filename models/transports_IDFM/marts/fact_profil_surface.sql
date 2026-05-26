@@ -40,5 +40,5 @@ LEFT JOIN {{ ref('dim_lignes') }} AS dl
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_transporteur_stif) AS INT64) AS STRING), 3, '0'),
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_reseau_stif) AS INT64) AS STRING), 3, '0'),
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_ligne_stif) AS INT64) AS STRING), 3, '0')
-) = dl.privatecode
+) = dl.private_code
 ORDER BY id_ligne, categorie_jour, periode, heure

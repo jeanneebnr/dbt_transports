@@ -49,7 +49,7 @@ filtered AS (
             LPAD(CAST(id_transporteur_stif AS STRING), 3, '0'),
             LPAD(CAST(id_reseau_stif AS STRING), 3, '0'),
             LPAD(CAST(id_arret_stif AS STRING), 6, '0')
-        ) AS privatecode_arret,
+        ) AS private_code_arret,
         id_transporteur_stif,
         id_reseau_stif,
         id_arret_stif,
@@ -66,7 +66,7 @@ filtered AS (
 )
 
 SELECT
-    privatecode_arret,
+    private_code_arret,
     id_transporteur_stif,
     id_reseau_stif,
     id_arret_stif,

@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 
 WITH stif AS (
-    SELECT privatecode, id_ligne_stif, libelle_ligne
+    SELECT private_code, id_ligne_stif, libelle_ligne
     FROM {{ ref('int_lignes_stif') }}
 ),
 
@@ -11,13 +11,13 @@ idfm AS (
 ),
 
 ref AS (
-    SELECT privatecode, id_ligne_idfm, libelle_ligne
+    SELECT private_code, id_ligne_idfm, libelle_ligne
     FROM {{ ref('stg_lignes_referentiel') }}
 ),
 
 joined AS (
     SELECT
-        ref.privatecode,
+        ref.private_code,
         ref.id_ligne_idfm,
         stif.id_ligne_stif,
         stif.libelle_ligne AS libelle_stif,
@@ -33,13 +33,13 @@ joined AS (
         CASE WHEN stif.id_ligne_stif IS NOT NULL THEN TRUE ELSE FALSE END AS has_stif,
         CASE WHEN idfm.id_ligne_idfm IS NOT NULL THEN TRUE ELSE FALSE END AS has_idfm
     FROM ref
-    LEFT JOIN stif ON ref.privatecode = stif.privatecode
+    LEFT JOIN stif ON ref.private_code = stif.private_code
     LEFT JOIN idfm ON ref.id_ligne_idfm = idfm.id_ligne_idfm
 ),
 
 stif_only AS (
     SELECT
-        stif.privatecode,
+        stif.private_code,
         CAST(NULL AS STRING) AS id_ligne_idfm,
         stif.id_ligne_stif,
         stif.libelle_ligne AS libelle_stif,
@@ -51,13 +51,13 @@ stif_only AS (
     FROM stif
     WHERE NOT EXISTS (
         SELECT 1 FROM ref
-        WHERE ref.privatecode = stif.privatecode
+        WHERE ref.private_code = stif.private_code
     )
 ),
 
 idfm_only AS (
     SELECT
-        CAST(NULL AS STRING) AS privatecode,
+        CAST(NULL AS STRING) AS private_code,
         idfm.id_ligne_idfm,
         CAST(NULL AS INT64) AS id_ligne_stif,
         CAST(NULL AS STRING) AS libelle_stif,

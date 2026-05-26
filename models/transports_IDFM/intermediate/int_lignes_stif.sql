@@ -108,7 +108,7 @@ filtered AS (
             LPAD(CAST(id_transporteur_stif AS STRING), 3, '0'),
             LPAD(CAST(id_reseau_stif AS STRING), 3, '0'),
             LPAD(CAST(id_ligne_stif AS STRING), 3, '0')
-        ) AS privatecode,
+        ) AS private_code,
         id_ligne_stif,
         libelle_ligne
     FROM all_facts
@@ -122,9 +122,9 @@ filtered AS (
 )
 
 SELECT
-    privatecode,
+    private_code,
     id_ligne_stif,
     libelle_ligne
 FROM filtered
-QUALIFY ROW_NUMBER() OVER (PARTITION BY privatecode ORDER BY LENGTH(libelle_ligne) DESC) = 1
+QUALIFY ROW_NUMBER() OVER (PARTITION BY private_code ORDER BY LENGTH(libelle_ligne) DESC) = 1
 ORDER BY id_ligne_stif

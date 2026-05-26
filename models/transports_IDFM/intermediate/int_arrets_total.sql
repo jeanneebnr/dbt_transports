@@ -5,7 +5,7 @@ WITH stif AS (
 
     SELECT
         id_zdc,
-        ANY_VALUE(privatecode_arret) AS privatecode_arret,
+        ANY_VALUE(private_code_arret) AS private_code_arret,
         ANY_VALUE(libelle_arret) AS libelle_arret_stif
 
     FROM {{ ref('int_arrets_stif') }}
@@ -40,7 +40,7 @@ SELECT
 
         ELSE 'UNKNOWN'
     END AS zdc_origin,
-    stif.privatecode_arret,
+    stif.private_code_arret,
     stif.libelle_arret_stif,
     idfm.libelle_arret_idfm,
 
