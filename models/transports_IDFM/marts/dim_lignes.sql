@@ -7,7 +7,6 @@ WITH base AS (
         id_ligne_stif,
         libelle_ligne
     FROM {{ ref('int_lignes_total') }}
-    WHERE id_ligne_idfm IS NOT NULL
 ),
 
 ref AS (
@@ -62,7 +61,7 @@ transporteurs AS (
 
 SELECT
     -- Nouvel ID technique
-    ROW_NUMBER() OVER (ORDER BY base.id_ligne_idfm) AS id_ligne,
+    ROW_NUMBER() OVER (ORDER BY COALESCE(base.id_ligne_idfm, base.private_code)) AS id_ligne,
 
     -- Identifiants
     base.id_ligne_idfm,
@@ -117,13 +116,12 @@ SELECT
     clim.climatisation,
 
     -- Indicateur de perception
-    -- individuel en priorité, sinon hérité du DSP
     COALESCE(
         ind.indicateur_perception,
         ind_dsp.indicateur_perception_dsp
     ) AS indicateur_perception,
 
-    ind.indicateur_perception        AS indicateur_perception_individuel,
+    ind.indicateur_perception         AS indicateur_perception_individuel,
     ind_dsp.indicateur_perception_dsp AS indicateur_perception_dsp,
 
     -- Transporteur
@@ -135,9 +133,9 @@ SELECT
     tr.id_operateur
 
 FROM base
-LEFT JOIN ref         ON base.id_ligne_idfm = ref.id_ligne_idfm
-LEFT JOIN arrets_lignes al   ON base.id_ligne_idfm = al.id_ligne_idfm
-LEFT JOIN indicateurs ind    ON base.id_ligne_idfm = ind.id_ligne_idfm
+LEFT JOIN ref              ON base.id_ligne_idfm = ref.id_ligne_idfm
+LEFT JOIN arrets_lignes al ON base.id_ligne_idfm = al.id_ligne_idfm
+LEFT JOIN indicateurs ind  ON base.id_ligne_idfm = ind.id_ligne_idfm
 LEFT JOIN indicateurs_dsp ind_dsp
     ON CASE
         WHEN ref.networkname = 'Pays Briard'                   THEN '13'
