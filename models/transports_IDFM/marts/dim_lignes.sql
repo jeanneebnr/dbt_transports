@@ -13,7 +13,7 @@ WITH base AS (
 ref AS (
     SELECT
         id_ligne_idfm,
-        private_code,
+        privatecode,
         id_groupoflines,
         networkname
     FROM {{ ref('stg_lignes_referentiel') }}
