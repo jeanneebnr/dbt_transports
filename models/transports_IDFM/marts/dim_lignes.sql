@@ -2,7 +2,7 @@
 
 WITH base AS (
     SELECT
-        privatecode,
+        privatecode as private_code,
         id_ligne_idfm,
         id_ligne_stif,
         libelle_ligne
@@ -13,7 +13,7 @@ WITH base AS (
 ref AS (
     SELECT
         id_ligne_idfm,
-        privatecode,
+        privatecode as private_code,
         id_groupoflines,
         networkname
     FROM {{ ref('stg_lignes_referentiel') }}

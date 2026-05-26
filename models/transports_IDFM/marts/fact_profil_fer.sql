@@ -21,7 +21,6 @@ WITH source AS (
 
 SELECT
     daz.id_arret,
-    nf.libelle_arret,
     nf.categorie_jour,
     nf.heure,
     nf.periode,

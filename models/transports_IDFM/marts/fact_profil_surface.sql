@@ -25,9 +25,6 @@ WITH source as (
 
 SELECT
     dl.id_ligne,
-    pf.id_transporteur_stif,
-    pf.id_reseau_stif,
-    pf.id_ligne_stif,
     CONCAT(
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_transporteur_stif) AS INT64) AS STRING), 3, '0'),
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_reseau_stif) AS INT64) AS STRING), 3, '0'),
