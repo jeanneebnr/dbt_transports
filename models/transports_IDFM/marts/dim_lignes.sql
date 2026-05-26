@@ -104,13 +104,64 @@ SELECT
 
     -- Surface or fer
     CASE
+        -- 1. TYPE_TRANSPORT disponible (lignes IDFM)
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) = 'Tramway'
-             AND base.libelle_ligne IN ('T4', 'T11', 'T12', 'T14') THEN 'fer'
+            AND base.libelle_ligne IN ('T4', 'T11', 'T12', 'T14') THEN 'fer'
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Tramway', 'Tram-train') THEN 'surface'
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN (
             'RapidTransit', 'RER', 'regionalRail', 'LocalTrain', 'Train', 'RailShuttle', 'Metro', 'Métro'
         ) THEN 'fer'
         WHEN COALESCE(al.type_transport_arrets, ind.type_transport_indicateurs) IN ('Bus', 'Funicular') THEN 'surface'
+
+        -- 2. FALLBACK PRIVATE_CODE (lignes STIF_ONLY)
+        WHEN SUBSTR(base.private_code, 1, 6) = '100110' THEN 'fer'
+        WHEN SUBSTR(base.private_code, 1, 3) IN ('800', '810') THEN 'fer'
+        WHEN SUBSTR(base.private_code, 1, 3) IN (
+            '100', '500', '501', '502', '503', '504', '505',
+            '506', '507', '508', '510', '511', '512', '513',
+            '514', '515', '516', '517', '518', '519', '520',
+            '521', '522', '523', '524', '525', '526', '527',
+            '528', '529', '530', '531', '532', '533', '534',
+            '535', '538', '539'
+        ) THEN 'surface'
+
+        -- 3. FALLBACK LIBELLE_LIGNE
+        WHEN UPPER(base.libelle_ligne) LIKE '%NOCTILIEN%' THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%RER%'       THEN 'fer'
+        WHEN UPPER(base.libelle_ligne) LIKE '%METRO%'     THEN 'fer'
+        WHEN UPPER(base.libelle_ligne) LIKE '%TRANSILIEN%' THEN 'fer'
+        WHEN UPPER(base.libelle_ligne) LIKE '%TRAMWAY%'   THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%BUS%'       THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%CAR%'       THEN 'surface'
+
+        -- Compléments libelle_ligne
+        WHEN UPPER(base.libelle_ligne) LIKE '%TAD%'              THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%T%D%'              THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%REMPLACEMENT%'     THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%SOIR%'             THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%NAVETTE%'          THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%FILEO%'            THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%TITUS%'            THEN 'surface'
+        WHEN UPPER(base.libelle_ligne) LIKE '%EXPRESS%'          THEN 'surface'
+        WHEN base.libelle_ligne = 'LIGNE NON DEFINIE'            THEN 'non classifié'
+
+        -- Préfixes supplémentaires
+        WHEN SUBSTR(base.private_code, 1, 3) IN (
+            '000', '003', '004', '005', '010', '011', '013',
+            '014', '015', '018', '020', '024', '027', '030',
+            '036', '039', '040', '044', '045', '046', '055',
+            '056', '059', '062', '063', '064', '078', '084',
+            '097', '101', '111', '116', '148', '191', '208',
+            '210', '213', '227', '228', '230', '233', '291',
+            '293', '314', '334', '400', '760', '762', '999'
+        ) THEN 'surface'
+
+        WHEN base.id_ligne_idfm LIKE 'C02%' AND base.libelle_ligne LIKE 'L%' THEN 'surface'
+        WHEN base.id_ligne_idfm = 'C02833' THEN 'surface'  -- ligne 18
+        WHEN base.id_ligne_idfm = 'C02855' THEN 'surface'  -- 1247
+        WHEN base.id_ligne_idfm = 'C00354' THEN 'surface'  -- 4115
+        WHEN base.libelle_ligne = 'LIGNE NON DEFINIE'       THEN 'non classifié'
+
         ELSE 'non classifié'
     END AS surface_or_fer,
 
