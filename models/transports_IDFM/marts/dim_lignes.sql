@@ -30,19 +30,21 @@ arrets_lignes AS (
 indicateurs AS (
     SELECT
         id_ligne_idfm,
-        type_transport AS type_transport_indicateurs,
-        resultat AS indicateur_perception,
-        transporteur_name AS libelle_transporteur_indicateurs
+        MAX(type_transport)      AS type_transport_indicateurs,
+        AVG(resultat)            AS indicateur_perception,
+        MAX(transporteur_name)   AS libelle_transporteur_indicateurs
     FROM {{ ref('stg_indicateurs_de_perception_qs') }}
     WHERE id_ligne_idfm IS NOT NULL
+    GROUP BY id_ligne_idfm
 ),
 
 indicateurs_dsp AS (
     SELECT
         dsp,
-        resultat AS indicateur_perception_dsp
+        AVG(resultat) AS indicateur_perception_dsp
     FROM {{ ref('stg_indicateurs_de_perception_qs') }}
     WHERE id_ligne_idfm IS NULL
+    GROUP BY dsp
 ),
 
 climatisation AS (
