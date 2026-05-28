@@ -28,14 +28,54 @@ arrets_lignes AS (
 ),
 
 indicateurs AS (
-    SELECT
-        id_ligne_idfm,
-        MAX(type_transport)      AS type_transport_indicateurs,
-        AVG(resultat)            AS indicateur_perception,
-        MAX(transporteur_name)   AS libelle_transporteur_indicateurs
+    SELECT 
+        id_ligne_idfm, 
+        type_transport AS type_transport_indicateurs, 
+        resultat AS indicateur_perception, 
+        transporteur_name AS libelle_transporteur_indicateurs
     FROM {{ ref('stg_indicateurs_de_perception_qs') }}
     WHERE id_ligne_idfm IS NOT NULL
-    GROUP BY id_ligne_idfm
+    AND id_ligne_idfm NOT LIKE '%;%'
+
+    UNION ALL
+
+    SELECT 
+        'C01373' AS id_ligne_idfm, 
+        type_transport AS type_transport_indicateurs, 
+        resultat AS indicateur_perception, 
+        transporteur_name AS libelle_transporteur_indicateurs
+    FROM {{ ref('stg_indicateurs_de_perception_qs') }}
+    WHERE id_ligne_idfm = 'C01373;C01386'
+
+    UNION ALL
+
+    SELECT 
+        'C01386' AS id_ligne_idfm, 
+        type_transport AS type_transport_indicateurs, 
+        resultat AS indicateur_perception, 
+        transporteur_name AS libelle_transporteur_indicateurs
+    FROM {{ ref('stg_indicateurs_de_perception_qs') }}
+    WHERE id_ligne_idfm = 'C01373;C01386'
+
+    UNION ALL
+
+    SELECT 
+        'C01377' AS id_ligne_idfm, 
+        type_transport AS type_transport_indicateurs, 
+        resultat AS indicateur_perception, 
+        transporteur_name AS libelle_transporteur_indicateurs
+    FROM {{ ref('stg_indicateurs_de_perception_qs') }}
+    WHERE id_ligne_idfm = 'C01377;C01387'
+
+    UNION ALL
+
+    SELECT 
+        'C01387' AS id_ligne_idfm, 
+        type_transport AS type_transport_indicateurs, 
+        resultat AS indicateur_perception, 
+        transporteur_name AS libelle_transporteur_indicateurs
+    FROM {{ ref('stg_indicateurs_de_perception_qs') }}
+    WHERE id_ligne_idfm = 'C01377;C01387'
 ),
 
 indicateurs_dsp AS (
@@ -52,6 +92,11 @@ climatisation AS (
         id_ligne_idfm,
         climatisation
     FROM {{ ref('stg_climatisation') }}
+),
+
+clim_manuel AS (
+    SELECT id_ligne_idfm, climatisation_manuel
+    FROM {{ ref('air_conditionning_manuel') }}
 ),
 
 transporteurs AS (
@@ -166,7 +211,7 @@ SELECT
     END AS surface_or_fer,
 
     -- Climatisation
-    clim.climatisation,
+    COALESCE(clim.climatisation, clim_manuel.climatisation_manuel, 'unknown') AS climatisation,
 
     -- Indicateur de perception
     COALESCE(
@@ -207,4 +252,5 @@ LEFT JOIN indicateurs_dsp ind_dsp
         ELSE NULL
     END = ind_dsp.dsp
 LEFT JOIN climatisation clim ON base.id_ligne_idfm = clim.id_ligne_idfm
+LEFT JOIN clim_manuel ON base.id_ligne_idfm = clim_manuel.id_ligne_idfm
 LEFT JOIN transporteurs tr   ON al.libelle_transporteur_arrets = tr.libelle_transporteur
