@@ -10,7 +10,6 @@ deduplicated AS (
             *,
             row_number() OVER (
                 PARTITION BY id_stop_point
-                ORDER BY id_stop_point ASC
             ) AS row_num
         FROM source_data
     )
@@ -19,9 +18,10 @@ deduplicated AS (
 
 clean_data AS (
     SELECT
-        cast(id_stop_point AS string) AS id_stop_IDFM,
-        nullif(trim(cast(stop_name AS string)), '') AS nom_arret,
+        cast(id_stop_point AS string) AS id_stop_idfm,
+        cast(stop_name AS string)     AS libelle_arret,
         coalesce(cast(accessibility_level_name as string), 'non renseigné') as niveau_accessibilite,
+        coalesce(cast(accessibility_level_id as string), 'non renseigné') as note_accessibilite,
         cast(lat AS float64) AS latitude,
         cast(lon AS float64) AS longitude
     FROM deduplicated
