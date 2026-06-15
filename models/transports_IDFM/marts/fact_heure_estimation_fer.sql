@@ -21,7 +21,9 @@ SELECT
     fa.id_ligne,
     f.libelle_arret,
     fa.retard_moyen_minute,
-    fa.incident_type
+    fa.incident_type,
+    fa.facteur_retard,
+    fa.taux_service_pct
 
 FROM fact as fa
 
