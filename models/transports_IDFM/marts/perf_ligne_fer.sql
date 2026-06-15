@@ -25,23 +25,7 @@ validations_jour AS (
  
 ),
  
-trafic_journalier AS (
- 
-    SELECT
-        date,
-        id_ligne,
-        tranche_horaire,
-        freq_theo,
-        freq_reel,
-        taux_service_pct,
-        retard_moyen_minute,
-        facteur_retard,
-        incident_detecte,
-        incident_type
- 
-    FROM {{ ref('fact_trafic_heure') }}
- 
-),
+
  
 dim_date_cte AS (
  
@@ -65,10 +49,10 @@ SELECT
     v.periode,
     dd.categorie_jour,
     da.libelle_arret,
-    t.* EXCEPT(date, id_ligne),
+   
     p.heure,
     p.validations_pct,
-    cast (round(v.total_validations_jour * p.validations_pct) as int64) AS validations_estimees_heure,
+    cast (round(v.total_validations_jour * (p.validations_pct/100)) as int64) AS validations_estimees_heure,
 
  
 FROM validations_jour v
@@ -76,9 +60,7 @@ JOIN {{ ref('dim_arrets_zdc') }} da
     ON v.id_arret = da.id_arret
 LEFT JOIN {{ ref('dim_arrets_lignes') }} cal
     ON SAFE_CAST(da.id_zdc AS STRING) = SAFE_CAST(cal.id_arret_zdc AS STRING)
-LEFT JOIN trafic_journalier t
-    ON SAFE_CAST(cal.id_ligne AS STRING) = SAFE_CAST(t.id_ligne AS STRING)
-    AND v.date = t.date
+
 LEFT JOIN dim_date_cte dd
     ON dd.date = v.date
 LEFT JOIN p

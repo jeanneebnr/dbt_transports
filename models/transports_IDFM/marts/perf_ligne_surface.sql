@@ -51,7 +51,7 @@ SELECT
       
     p.heure,
     p.validations_pct,
-    cast(round (v.total_validations_jour * p.validations_pct) as int64) AS validations_estimees_heure
+    cast(round (v.total_validations_jour * (p.validations_pct/100)) as int64) AS validations_estimees_heure
     
  
 FROM validations_jour v
