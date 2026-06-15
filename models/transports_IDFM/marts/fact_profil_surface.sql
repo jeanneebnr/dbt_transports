@@ -1,5 +1,7 @@
-{{config(materialized='table')}}
-
+{{ config(
+    materialized='table',
+   cluster_by=["id_ligne","periode","heure","categorie_jour"]
+) }}
 WITH source as (
     SELECT
         *,
@@ -41,4 +43,3 @@ LEFT JOIN {{ ref('dim_lignes') }} AS dl
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_reseau_stif) AS INT64) AS STRING), 3, '0'),
     LPAD(CAST(SAFE_CAST(TRIM(pf.id_ligne_stif) AS INT64) AS STRING), 3, '0')
 ) = dl.private_code
-ORDER BY id_ligne, categorie_jour, periode, heure

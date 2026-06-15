@@ -1,10 +1,18 @@
-{{ config(materialized='table') }}
-
+{{ config(
+    materialized='table',
+    partition_by={
+        "field": "date",
+        "data_type": "date",
+        "granularity": "day"
+    },
+    cluster_by=["id_ligne"]
+) }}
 WITH union_horaires AS (
     SELECT * FROM {{ ref('stg_horaires_2023') }}
     UNION ALL
     SELECT * FROM {{ ref('stg_horaires_2024') }}
 )
+
 
 SELECT
     ROW_NUMBER() OVER (ORDER BY CAST(uh.date AS DATE), CAST(uh.heure AS INT64)) AS id_trafic,

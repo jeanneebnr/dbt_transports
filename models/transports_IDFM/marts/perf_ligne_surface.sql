@@ -1,4 +1,11 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    partition_by={
+        "field": "date",
+        "data_type": "date"
+    },
+    cluster_by=["id_ligne","periode"]
+) }}
 
 WITH validations_jour AS (
  
@@ -67,6 +74,3 @@ LEFT JOIN p
 
 Left join {{ref('dim_lignes')}}  d
 on safe_cast(d.private_code as string) = safe_cast(v.private_code as string)
- 
-ORDER BY v.periode, v.date
- 

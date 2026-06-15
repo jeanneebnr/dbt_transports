@@ -1,6 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    cluster_by=["id_arret", "categorie_jour", "periode","heure"]
 
-WITH source AS (
+) }}WITH source AS (
     SELECT *,
     '2024_s1' AS periode
     FROM {{ ref('stg_profil_fer_2024_s1') }}
@@ -27,6 +29,6 @@ SELECT
     nf.validations_pct
 
 FROM source nf
-JOIN {{ref('dim_arrets_zdc')}}  daz
+JOIN {{ref('dim_arrets_zdc')}} daz
 ON nf.id_zone_arret = daz.id_zdc
-ORDER BY id_arret, categorie_jour, periode, heure
+

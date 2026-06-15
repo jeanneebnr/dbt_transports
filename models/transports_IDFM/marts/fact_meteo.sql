@@ -1,4 +1,10 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    partition_by={
+        "field": "date",
+        "data_type": "date",
+        "granularity": "day"}
+)}}
 
 SELECT
     ROW_NUMBER() OVER (ORDER BY CAST(time AS DATE)) AS id_meteo,
