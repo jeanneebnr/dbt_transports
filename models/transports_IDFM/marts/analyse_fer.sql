@@ -19,6 +19,14 @@ meteo AS (
     SELEct*
 
     FROM {{ ref('fact_meteo') }}
+),
+
+dim as (
+
+    SELEct date, categorie_jour,
+    jour_semaine
+
+    FROM {{ ref('dim_date') }}
 )
 
 
@@ -28,6 +36,8 @@ SELECT
     b.date,
     b.heure,
     b.id_ligne,
+    d.categorie_jour,
+    d.jour_semaine,
 
  
     b.retard_moyen_minute,
@@ -39,10 +49,12 @@ SELECT
     b.incident_type,
 
   
-    m.*except(date),
+    m.*except(date)
     
+
 
 FROM fer b
 
 LEFT JOIN meteo m
     ON m.date = b.date
+Left join dim d on d.date=b.date
